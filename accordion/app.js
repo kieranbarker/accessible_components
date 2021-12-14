@@ -55,12 +55,12 @@ function show(panel) {
   const [ button ] = heading.children;
 
   // If the panel is already open, do nothing
-  const isOpen = button.ariaDisabled;
+  const isOpen = button.getAttribute('aria-disabled');
   if (isOpen === 'true') return;
 
   // Mark the panel as expanded and disabled
-  button.ariaExpanded = 'true';
-  button.ariaDisabled = 'true';
+  button.setAttribute('aria-expanded', 'true');
+  button.setAttribute('aria-disabled', 'true');
 
   // Show the content
   content.hidden = false;
@@ -76,8 +76,8 @@ function hide(panel) {
   const [ button ] = heading.children;
 
   // Mark the panel as collapsed and enabled
-  button.ariaExpanded = 'false';
-  button.ariaDisabled = 'false';
+  button.setAttribute('aria-expanded', 'false');
+  button.setAttribute('aria-disabled', 'false');
 
   // Hide the content
   content.hidden = true;
