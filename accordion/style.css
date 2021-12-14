@@ -8,6 +8,7 @@
 }
 
 [data-heading][aria-disabled='true'] {
+  opacity: 0.75;
   cursor: not-allowed;
 }
 
