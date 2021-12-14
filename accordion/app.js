@@ -18,16 +18,22 @@ const sections = [ ...accordion.children ];
  * @param {HTMLElement} section
  * @param {number} index
  */
-function createPanels(section, index) {
+function createPanel(section, index) {
   // Get the heading and content for this panel
   const [ heading, content ] = section.children;
 
+  // The ID for the aria-controls attribute
+  const id = `content-${index}`;
+
+  // Whether the content should be visible by default
+  const isFirstPanel = index < 1;
+
   // Set the necessary attributes
   section.dataset.panel = '';
-  content.id = `content-${index}`;
+  content.id = id;
 
   // If this isn't the first panel, hide its content
-  if (index > 0) {
+  if (!isFirstPanel) {
     content.hidden = true;
   }
 
@@ -36,9 +42,9 @@ function createPanels(section, index) {
     <button
       type="button"
       data-heading=""
-      aria-controls="content-${index}"
-      aria-expanded="${index < 1}"
-      aria-disabled="${index < 1}"
+      aria-controls="${id}"
+      aria-expanded="${isFirstPanel}"
+      aria-disabled="${isFirstPanel}"
     >
       ${heading.textContent}
     </button>
@@ -146,7 +152,7 @@ function handleKeydown(event) {
 //
 
 // Add the necessary elements and attributes
-sections.forEach(createPanels);
+sections.forEach(createPanel);
 
 // Handle click and keydown events
 accordion.addEventListener('click', handleClick);
