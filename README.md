@@ -6,9 +6,9 @@ Dave Rupert's [Nutrition Cards for Accessible Components](https://davatron5000.g
 
 ## To do
 
-[x] Accordion
-[ ] Button
-[ ] Disclosure (show/hide)
-[ ] Menu and menu button
-[ ] Tabs
-[ ] Tooltip
+- [x] Accordion
+- [ ] Button
+- [ ] Disclosure (show/hide)
+- [ ] Menu and menu button
+- [ ] Tabs
+- [ ] Tooltip
