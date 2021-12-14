@@ -4,9 +4,11 @@ Dave Rupert's [Nutrition Cards for Accessible Components](https://davatron5000.g
 
 **This is my attempt to create each of these components from scratch.**
 
+[View demo](https://kieranbarker.github.io/accessible_components/)
+
 ## To do
 
-- [x] Accordion
+- [x] [Accordion](https://kieranbarker.github.io/accessible_components/accordion/)
 - [ ] Button
 - [ ] Disclosure (show/hide)
 - [ ] Menu and menu button
