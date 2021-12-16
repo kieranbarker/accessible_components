@@ -61,7 +61,7 @@ function show(panel) {
   const [ button ] = heading.children;
 
   // If the panel is already open, do nothing
-  const isOpen = button.getAttribute('aria-disabled');
+  const isOpen = button.getAttribute('aria-expanded');
   if (isOpen === 'true') return;
 
   // Mark the panel as expanded and disabled
