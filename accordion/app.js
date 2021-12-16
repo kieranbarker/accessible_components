@@ -123,8 +123,8 @@ function handleKeydown(event) {
   if (!isHeading) return;
 
   // If it wasn't the up/down arrow key, do nothing
-  const isArrowUp = event.key === 'Up' || event.key === 'ArrowUp';
-  const isArrowDown = event.key === 'Down' || event.key === 'ArrowDown';
+  const isArrowUp = event.key === 'ArrowUp' || event.key === 'Up';
+  const isArrowDown = event.key === 'ArrowDown' || event.key === 'Down';
   if (!isArrowUp && !isArrowDown) return;
 
   // Get all of the headings
