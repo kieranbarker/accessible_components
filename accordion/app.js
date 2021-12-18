@@ -26,7 +26,7 @@ function createPanel(section, index) {
   const id = `content-${index}`;
 
   // Whether the content should be visible by default
-  const isFirstPanel = index < 1;
+  const isFirstPanel = index === 0;
 
   // Set the necessary attributes
   section.dataset.panel = '';
