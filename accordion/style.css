@@ -4,7 +4,6 @@
   font: inherit;
   color: inherit;
   background: none;
-  cursor: pointer;
 }
 
 [data-heading][aria-expanded='false']::before {
