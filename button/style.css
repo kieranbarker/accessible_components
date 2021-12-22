@@ -1,0 +1,65 @@
+button {
+  padding: 0.5em 1em;
+  border: 0.25em solid var(--black);
+  color: var(--black);
+  background: transparent;
+  font: inherit;
+}
+
+button:focus {
+  outline-offset: 0.25em;
+}
+
+button:hover {
+  color: var(--white);
+}
+
+button:hover {
+  background: var(--black);
+}
+
+[aria-pressed] {
+  border-color: var(--firebrick);
+}
+
+[aria-pressed='false'],
+[aria-pressed='false']:hover {
+  color: var(--firebrick);
+}
+
+[aria-pressed='false']:hover {
+  background: transparent;
+}
+
+[aria-pressed='true'],
+[aria-pressed='true']:hover {
+  color: var(--white);
+  background: var(--firebrick);
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    border-color: var(--white);
+    color: var(--white);
+  }
+
+  button:hover {
+    color: var(--black);
+    background: var(--white);
+  }
+
+  [aria-pressed] {
+    border-color: var(--orange-red);
+  }
+
+  [aria-pressed='false'],
+  [aria-pressed='false']:hover {
+    color: var(--orange-red);
+  }
+
+  [aria-pressed='true'],
+  [aria-pressed='true']:hover {
+    color: var(--black);
+    background: var(--orange-red);
+  }
+}

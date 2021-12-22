@@ -28,12 +28,16 @@ a:link {
   color: var(--blue);
 }
 
+a:visited {
+  color: var(--purple);
+}
+
 a:active {
   color: var(--firebrick);
 }
 
-a:visited {
-  color: var(--purple);
+code {
+  color: var(--firebrick);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,11 +50,15 @@ a:visited {
     color: var(--deep-sky-blue);
   }
 
+  a:visited {
+    color: var(--orchid);
+  }
+
   a:active {
     color: var(--orange-red);
   }
 
-  a:visited {
-    color: var(--orchid);
+  code {
+    color: var(--orange-red);
   }
 }
