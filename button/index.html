@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button - Accessible components</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="stylesheet" href="../global.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>
+      Button
+    </h1>
+    <p>
+      Just a simple and accessible HTML <code>&lt;button&gt;</code> element.
+    </p>
+    <p>
+      References:
+    </p>
+    <ul>
+      <li>
+        <a href="https://davatron5000.github.io/a11y-nutrition-cards/components/button">
+          Nutrition card
+        </a>
+      </li>
+      <li>
+        <a href="https://w3c.github.io/aria-practices/#button">
+          WAI-ARIA authoring practices
+        </a>
+      </li>
+    </ul>
+  </header>
+
+  <main>
+    <article>
+      <h2>
+        Standard button
+      </h2>
+      <p>
+        This is a standard button. It shows an alert when activated.
+      </p>
+      <p>
+        <button id="alert" type="button">
+          Show alert&hellip;
+        </button>
+      </p>
+    </article>
+
+    <article>
+      <h2>
+        Toggle button
+      </h2>
+      <p>
+        This is a toggle button with an on/off state.
+      </p>
+      <p>
+        <button id="toggle" type="button" aria-label="Favourite" aria-pressed="false">
+          &hearts; Favourite
+        </button>
+      </p>
+    </article>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
