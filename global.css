@@ -6,7 +6,7 @@
   --black: #000;
   --near-black: #222;
   --white: #fff;
-  --red: #f00;
+  --firebrick: #b22222;
   --orange-red: #ff4500;
   --blue: #00f;
   --deep-sky-blue: #00bfff;
@@ -29,7 +29,7 @@ a:link {
 }
 
 a:active {
-  color: var(--red);
+  color: var(--firebrick);
 }
 
 a:visited {
