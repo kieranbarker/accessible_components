@@ -41,13 +41,20 @@ function toggle(button) {
  * @param {Event} event
  */
 function handleClick(event) {
-  switch (event.target.id) {
+  // Get the closest button
+  const button = event.target.closest('button');
+  if (!button) return;
+
+  switch (button.id) {
+    // If the alert button was clicked, show an alert
     case 'alert':
       alert(message);
       break;
+    // If the toggle button was clicked, toggle its pressed state
     case 'toggle':
-      toggle(event.target);
+      toggle(button);
       break;
+    // Otherwise, do nothing
     default:
       return;
   }

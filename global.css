@@ -40,6 +40,10 @@ code {
   color: var(--firebrick);
 }
 
+small {
+  font-size: inherit;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     color: var(--white);
