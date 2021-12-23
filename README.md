@@ -9,7 +9,7 @@ Dave Rupert's [Nutrition Cards for Accessible Components](https://davatron5000.g
 ## To do
 
 - [x] [Accordion](https://kieranbarker.github.io/accessible_components/accordion/)
-- [ ] Button
+- [x] [Button](https://kieranbarker.github.io/accessible_components/button/)
 - [ ] Disclosure (show/hide)
 - [ ] Menu and menu button
 - [ ] Tabs
