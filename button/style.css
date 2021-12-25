@@ -12,9 +12,6 @@ button:focus {
 
 button:hover {
   color: var(--white);
-}
-
-button:hover {
   background: var(--black);
 }
 
