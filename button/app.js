@@ -48,12 +48,14 @@ function handleClick(event) {
   switch (button.id) {
     // If the alert button was clicked, show an alert
     case 'alert':
-      alert(message);
+      window.alert(message);
       break;
+
     // If the toggle button was clicked, toggle its pressed state
     case 'toggle':
       toggle(button);
       break;
+
     // Otherwise, do nothing
     default:
       return;
