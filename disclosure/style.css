@@ -30,11 +30,11 @@ button:focus {
 }
 
 [aria-expanded='false']::before {
-  content: '→ ';
+  content: '▸ ';
 }
 
 [aria-expanded='true']::before {
-  content: '↓ ';
+  content: '▾ ';
 }
 
 @media (prefers-color-scheme: dark) {
