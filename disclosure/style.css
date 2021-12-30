@@ -1,0 +1,51 @@
+blockquote {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+blockquote p::before {
+  content: open-quote;
+}
+
+blockquote p::after {
+  content: close-quote;
+}
+
+button {
+  padding: 0.5em 1em;
+  border: 0.25em solid var(--black);
+  color: var(--black);
+  background: transparent;
+  font: inherit;
+}
+
+button:focus,
+button:hover {
+  color: var(--white);
+  background: var(--black);
+}
+
+button:focus {
+  outline-offset: 0.25em;
+}
+
+[aria-expanded='false']::before {
+  content: '→ ';
+}
+
+[aria-expanded='true']::before {
+  content: '↓ ';
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    border-color: var(--white);
+    color: var(--white);
+  }
+
+  button:focus,
+  button:hover {
+    color: var(--black);
+    background: var(--white);
+  }
+}
