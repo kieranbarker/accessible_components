@@ -44,6 +44,27 @@ small {
   font-size: inherit;
 }
 
+[aria-expanded] {
+  display: flex;
+  align-items: center;
+}
+
+[aria-expanded]::before {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.25em;
+  background: currentColor;
+}
+
+[aria-expanded='false']::before {
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+[aria-expanded='true']::before {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     color: var(--white);

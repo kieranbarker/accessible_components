@@ -6,14 +6,6 @@
   background: none;
 }
 
-[data-heading][aria-expanded='false']::before {
-  content: '▸ ';
-}
-
-[data-heading][aria-expanded='true']::before {
-  content: '▾ ';
-}
-
 [data-heading][aria-disabled='true'] {
   opacity: 0.6;
   cursor: not-allowed;

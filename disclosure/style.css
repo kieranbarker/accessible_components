@@ -29,14 +29,6 @@ button:focus {
   outline-offset: 0.25em;
 }
 
-[aria-expanded='false']::before {
-  content: '▸ ';
-}
-
-[aria-expanded='true']::before {
-  content: '▾ ';
-}
-
 @media (prefers-color-scheme: dark) {
   button {
     border-color: var(--white);
