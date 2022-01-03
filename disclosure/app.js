@@ -25,6 +25,7 @@ const content = document.querySelector(`#${contentId}`);
 function createTrigger() {
   // Create a button element
   const button = document.createElement('button');
+  button.type = 'button';
   button.textContent = 'Show';
 
   // Set the necessary attributes
