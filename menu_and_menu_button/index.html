@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu &amp; menu button - Accessible components</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="stylesheet" href="../global.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>
+      Menu &amp; menu button
+    </h1>
+    <p>
+      Menus are commonly referred to as <i>dropdowns</i>. They present a list of options to a user when activated.
+    </p>
+    <p>
+      References:
+    </p>
+    <ul>
+      <li>
+        <a href="https://davatron5000.github.io/a11y-nutrition-cards/components/menu">
+          Nutrition card
+        </a>
+      </li>
+      <li>
+        <a href="https://w3c.github.io/aria-practices/#menu">
+          WAI-ARIA authoring practices
+        </a>
+      </li>
+    </ul>
+  </header>
+
+  <main>
+    <button id="menu-button" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu">Menu</button>
+    <ul id="menu" role="menu" aria-labelledby="menu-button" hidden="">
+      <li role="presentation">
+        <a href="#" role="menuitem">Home</a>
+      </li>
+      <li role="presentation">
+        <a href="#" role="menuitem">About</a>
+      </li>
+      <li role="presentation">
+        <a href="#" role="menuitem">Blog</a>
+      </li>
+      <li role="presentation">
+        <a href="#" role="menuitem">Gallery</a>
+      </li>
+      <li role="presentation">
+        <a href="#" role="menuitem">Contact</a>
+      </li>
+    </ul>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
