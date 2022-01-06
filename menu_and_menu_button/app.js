@@ -48,17 +48,29 @@ function handleClick() {
 }
 
 /**
+ * Handle the escape key when the menu button or a menu item is in focus.
+ */
+ function handleEscapeKey() {
+  hide();
+  menuButton.focus();
+}
+
+/**
  * Handle the menu button when it's in focus.
  * @param {Event} event
  */
 function handleMenuButton(event) {
-  // If it wasn't the down arrow key, do nothing
+  // Check which key was pressed
   const isArrowDown = event.key === 'ArrowDown' || event.key === 'Down';
-  if (!isArrowDown) return;
+  const isEscape = event.key === 'Escape' || event.key === 'Esc';
 
-  // Otherwise, show the menu and focus the first item
-  show();
-  firstMenuItem.focus();
+  // Handle arrow down and escape keys
+  if (isArrowDown) {
+    show();
+    firstMenuItem.focus();
+  } else if (isEscape) {
+    handleEscapeKey();
+  }
 }
 
 /**
@@ -81,14 +93,6 @@ function handleArrowKeys(isArrowUp, isArrowDown) {
   } else if (isArrowDown) {
     menuItems[index + 1]?.focus();
   }
-}
-
-/**
- * Handle the escape key when a menu item is in focus.
- */
-function handleEscapeKey() {
-  hide();
-  menuButton.focus();
 }
 
 /**
