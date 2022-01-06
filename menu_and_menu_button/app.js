@@ -126,11 +126,22 @@ function handleKeydown(event) {
   }
 }
 
+/**
+ * Initialise the script.
+ */
+function init() {
+  // Hide the menu
+  hide();
+
+  // Handle click and keydown events
+  menuButton.addEventListener('click', handleClick);
+  document.addEventListener('keydown', handleKeydown);
+}
+
 
 //
 // Inits & Event Listeners
 //
 
-// Handle click and keydown events
-menuButton.addEventListener('click', handleClick);
-document.addEventListener('keydown', handleKeydown);
+// Initialise the script
+init();
