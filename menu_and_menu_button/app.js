@@ -109,11 +109,13 @@ function handleArrowKeys(isArrowUp, isArrowDown) {
   });
 
   // Shift focus to the next item
+  let itemToFocus;
   if (isArrowUp) {
-    menuItems[index - 1]?.focus();
+    itemToFocus = menuItems[index - 1] ?? menuItems[menuItems.length - 1];
   } else if (isArrowDown) {
-    menuItems[index + 1]?.focus();
+    itemToFocus = menuItems[index + 1] ?? menuItems[0];
   }
+  itemToFocus.focus();
 }
 
 /**
