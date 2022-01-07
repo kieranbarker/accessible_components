@@ -1,20 +1,24 @@
 button {
   padding: 0.5em 1em;
   border: 0.125em solid var(--black);
+  margin: 0;
   font: inherit;
-  background: var(--white);
+  color: var(--black);
+  background: transparent;
 }
 
 [aria-expanded='false']::before {
   clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 
-[aria-expanded='true'] {
-  border-bottom: none;
-}
-
 [aria-expanded='true']::before {
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+[aria-expanded]:focus {
+  color: var(--white);
+  background: var(--black);
+  outline: none;
 }
 
 #menu {
@@ -24,7 +28,56 @@ button {
   list-style: none;
 }
 
+#menu li {
+  margin: 0.25em 0;
+}
+
+#menu > :first-child {
+  margin-top: 0;
+}
+
+#menu > :last-child {
+  margin-bottom: 0;
+}
+
 #menu a {
   display: block;
   padding: 0.5em 1em;
+  color: var(--black);
+}
+
+#menu a:hover,
+#menu a:focus {
+  color: var(--white);
+  background: var(--black);
+}
+
+#menu a:focus {
+  outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    color: var(--white);
+    border-color: var(--white);
+  }
+
+  [aria-expanded]:focus {
+    color: var(--black);
+    background: var(--white);
+  }
+
+  #menu {
+    border-color: var(--white);
+  }
+
+  #menu a {
+    color: var(--white);
+  }
+
+  #menu a:hover,
+  #menu a:focus {
+    color: var(--black);
+    background: var(--white);
+  }
 }
