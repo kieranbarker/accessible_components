@@ -8,8 +8,8 @@
 const menu = document.querySelector('#menu');
 const menuButton = document.querySelector('#menu-button');
 
-// Get the first menu item
-const firstMenuItem = menu.firstElementChild.firstElementChild;
+// Get the menu items
+const menuItems = [ ...menu.querySelectorAll('a') ];
 
 
 //
@@ -69,7 +69,7 @@ function handleArrowDownKey() {
 
   // Otherwise, open the menu
   show();
-  firstMenuItem.focus();
+  menuItems[0].focus();
 }
 
 /**
@@ -103,9 +103,6 @@ function handleMenuButton(event) {
  * @param {boolean} isArrowDown
  */
 function handleArrowKeys(isArrowUp, isArrowDown) {
-  // Get all of the menu items
-  const menuItems = [ ...menu.querySelectorAll('a') ];
-
   // Find the index of the item that's in focus
   const index = menuItems.findIndex(item => {
     return item === document.activeElement;
