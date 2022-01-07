@@ -33,9 +33,9 @@ function hide() {
 }
 
 /**
- * Handle click events.
+ * Toggle the menu.
  */
-function handleClick() {
+function toggle() {
   // Get the expanded state
   const isExpanded = menuButton.getAttribute('aria-expanded');
 
@@ -44,6 +44,18 @@ function handleClick() {
     hide();
   } else if (isExpanded === 'false') {
     show();
+  }
+}
+
+/**
+ * Handle click events.
+ * @param {Event} event
+ */
+function handleClick(event) {
+  if (event.target === menuButton) {
+    toggle();
+  } else {
+    hide();
   }
 }
 
@@ -150,7 +162,7 @@ function init() {
   hide();
 
   // Handle click and keydown events
-  menuButton.addEventListener('click', handleClick);
+  document.documentElement.addEventListener('click', handleClick);
   document.addEventListener('keydown', handleKeydown);
 }
 
