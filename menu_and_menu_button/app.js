@@ -48,9 +48,22 @@ function handleClick() {
 }
 
 /**
+ * Handle the arrow down key when the menu button is in focus.
+ */
+function handleArrowDownKey() {
+  // If the menu is already open, do nothing
+  const isExpanded = menuButton.getAttribute('aria-expanded');
+  if (isExpanded !== 'false') return;
+
+  // Otherwise, open the menu
+  show();
+  firstMenuItem.focus();
+}
+
+/**
  * Handle the escape key when the menu button or a menu item is in focus.
  */
- function handleEscapeKey() {
+function handleEscapeKey() {
   hide();
   menuButton.focus();
 }
@@ -66,8 +79,7 @@ function handleMenuButton(event) {
 
   // Handle arrow down and escape keys
   if (isArrowDown) {
-    show();
-    firstMenuItem.focus();
+    handleArrowDownKey();
   } else if (isEscape) {
     handleEscapeKey();
   }
