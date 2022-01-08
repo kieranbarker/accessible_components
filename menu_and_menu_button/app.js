@@ -72,6 +72,15 @@ function handleClick(event) {
 }
 
 /**
+ * Check if an element is in focus.
+ * @param {Element} element
+ * @returns {boolean}
+ */
+function isInFocus(element) {
+  return document.activeElement === element;
+}
+
+/**
  * Shift focus to the first menu item.
  */
 function focusFirstItem() {
@@ -108,9 +117,7 @@ function focusLastItem() {
  */
 function focusNextItem() {
   // Find the index of the item that's in focus
-  const index = menuItems.findIndex(item => {
-    return item === document.activeElement;
-  });
+  const index = menuItems.findIndex(isInFocus);
 
   // Shift focus to the next item
   const nextItem = menuItems[index + 1] ?? menuItems[0];
@@ -122,9 +129,7 @@ function focusNextItem() {
  */
 function focusPrevItem() {
   // Find the index of the item that's in focus
-  const index = menuItems.findIndex(item => {
-    return item === document.activeElement;
-  });
+  const index = menuItems.findIndex(isInFocus);
 
   // Shift focus to the previous item
   const prevItem = menuItems[index - 1] ?? menuItems[menuItems.length - 1];
