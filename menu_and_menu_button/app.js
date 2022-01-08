@@ -60,7 +60,7 @@ function handleClick(event) {
 }
 
 /**
- * Handle the arrow keys for the menu button.
+ * Handle the ArrowUp and ArrowDown keys for the menu button.
  * @param {boolean} isArrowUp
  * @param {boolean} isArrowDown
  */
@@ -82,7 +82,7 @@ function handleMenuButton(isArrowUp, isArrowDown) {
 }
 
 /**
- * Handle the arrow keys for a menu item.
+ * Handle the ArrowUp and ArrowDown keys for a menu item.
  * @param {boolean} isArrowUp
  * @param {boolean} isArrowDown
  */
@@ -103,7 +103,7 @@ function handleMenuItem(isArrowUp, isArrowDown) {
 }
 
 /**
- * Handle the arrow keys.
+ * Handle the ArrowUp and ArrowDown keys.
  * @param {boolean} isArrowUp
  * @param {boolean} isArrowDown
  */
@@ -121,7 +121,7 @@ function handleArrowKeys(isArrowUp, isArrowDown) {
 }
 
 /**
- * Handle the escape key.
+ * Handle the Escape key.
  */
 function handleEscapeKey() {
   // Check if a menu item is in focus
@@ -137,6 +137,20 @@ function handleEscapeKey() {
 }
 
 /**
+ * Handle the Home key.
+ */
+function handleHomeKey() {
+  menuItems[0].focus();
+}
+
+/**
+ * Handle the End key.
+ */
+function handleEndKey() {
+  menuItems[menuItems.length - 1].focus();
+}
+
+/**
  * Handle keydown events.
  * @param {Event} event
  */
@@ -145,12 +159,18 @@ function handleKeydown(event) {
   const isArrowUp = event.key === 'ArrowUp' || event.key === 'Up';
   const isArrowDown = event.key === 'ArrowDown' || event.key === 'Down';
   const isEscape = event.key === 'Escape' || event.key === 'Esc';
+  const isHome = event.key === 'Home';
+  const isEnd = event.key === 'End';
 
-  // Handle the arrow and escape keys
+  // Handle the ArrowUp/ArrowDown, Escape, Home, and End keys
   if (isArrowUp || isArrowDown) {
     handleArrowKeys(isArrowUp, isArrowDown);
   } else if (isEscape) {
     handleEscapeKey();
+  } else if (isHome) {
+    handleHomeKey();
+  } else if (isEnd) {
+    handleEndKey();
   }
 }
 
