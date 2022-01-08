@@ -141,7 +141,7 @@ function focusPrevItem() {
  */
 function handleArrowUpKey() {
   // Check which element is in focus
-  const isMenuButtonInFocus = document.activeElement === menuButton;
+  const isMenuButtonInFocus = isInFocus(menuButton);
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
 
   // Handle the menu button and menu items
@@ -157,7 +157,7 @@ function handleArrowUpKey() {
  */
 function handleArrowDownKey() {
   // Check which element is in focus
-  const isMenuButtonInFocus = document.activeElement === menuButton;
+  const isMenuButtonInFocus = isInFocus(menuButton);
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
 
   // Handle the menu button and menu items
