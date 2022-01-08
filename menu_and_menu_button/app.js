@@ -11,6 +11,9 @@ const menuButton = document.querySelector('#menu-button');
 // Get the menu items
 const menuItems = [ ...menu.querySelectorAll('a') ];
 
+// The aria-expanded attribute
+const ariaExpanded = 'aria-expanded';
+
 // Handlers for keydown events
 const keydownHandlers = {
   ArrowUp: handleArrowUpKey,
@@ -30,7 +33,7 @@ const keydownHandlers = {
  */
 function show() {
   menu.hidden = false;
-  menuButton.setAttribute('aria-expanded', 'true');
+  menuButton.setAttribute(ariaExpanded, 'true');
 }
 
 /**
@@ -38,7 +41,7 @@ function show() {
  */
 function hide() {
   menu.hidden = true;
-  menuButton.removeAttribute('aria-expanded');
+  menuButton.removeAttribute(ariaExpanded);
 }
 
 /**
@@ -46,7 +49,7 @@ function hide() {
  */
 function toggle() {
   // Get the expanded state
-  const isExpanded = menuButton.getAttribute('aria-expanded');
+  const isExpanded = menuButton.getAttribute(ariaExpanded);
 
   // Hide/show the menu based on the state
   if (isExpanded && isExpanded === 'true') {
@@ -73,7 +76,7 @@ function handleClick(event) {
  */
 function focusFirstItem() {
   // Get the expanded state
-  const isExpanded = menuButton.getAttribute('aria-expanded');
+  const isExpanded = menuButton.getAttribute(ariaExpanded);
 
   // If the menu is closed, open it
   if (!isExpanded) {
@@ -89,7 +92,7 @@ function focusFirstItem() {
  */
 function focusLastItem() {
   // Get the expanded state
-  const isExpanded = menuButton.getAttribute('aria-expanded');
+  const isExpanded = menuButton.getAttribute(ariaExpanded);
 
   // If the menu is closed, open it
   if (!isExpanded) {
@@ -133,8 +136,8 @@ function focusPrevItem() {
  */
 function handleArrowUpKey() {
   // Check which element is in focus
-  const isMenuButtonInFocus = document.activeElement.matches('#menu-button');
-  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+  const isMenuButtonInFocus = document.activeElement === menuButton;
+  const isMenuItemInFocus = menuItems.includes(document.activeElement);
 
   // Handle the menu button and menu items
   if (isMenuButtonInFocus) {
@@ -149,8 +152,8 @@ function handleArrowUpKey() {
  */
 function handleArrowDownKey() {
   // Check which element is in focus
-  const isMenuButtonInFocus = document.activeElement.matches('#menu-button');
-  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+  const isMenuButtonInFocus = document.activeElement === menuButton;
+  const isMenuItemInFocus = menuItems.includes(document.activeElement);
 
   // Handle the menu button and menu items
   if (isMenuButtonInFocus) {
@@ -165,7 +168,7 @@ function handleArrowDownKey() {
  */
 function handleEscapeKey() {
   // Check if a menu item is in focus
-  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+  const isMenuItemInFocus = menuItems.includes(document.activeElement);
 
   // Close the menu
   hide();
@@ -181,7 +184,7 @@ function handleEscapeKey() {
  */
 function handleHomeKey() {
   // If there isn't a menu item in focus, do nothing
-  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+  const isMenuItemInFocus = menuItems.includes(document.activeElement);
   if (!isMenuItemInFocus) return;
 
   // Otherwise, shift focus to the first item
@@ -193,7 +196,7 @@ function handleHomeKey() {
  */
 function handleEndKey() {
   // If there isn't a menu item in focus, do nothing
-  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+  const isMenuItemInFocus = menuItems.includes(document.activeElement);
   if (!isMenuItemInFocus) return;
 
   // Otherwise, shift focus to the last item
