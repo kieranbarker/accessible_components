@@ -39,7 +39,7 @@ function toggle() {
   // Get the expanded state
   const isExpanded = menuButton.getAttribute('aria-expanded');
 
-  // Show/hide the menu based on the state
+  // Hide/show the menu based on the state
   if (isExpanded && isExpanded === 'true') {
     hide();
   } else {
@@ -136,6 +136,10 @@ function handleEscapeKey() {
   }
 }
 
+/**
+ * Handle keydown events.
+ * @param {Event} event
+ */
 function handleKeydown(event) {
   // Check which key was pressed
   const isArrowUp = event.key === 'ArrowUp' || event.key === 'Up';
