@@ -11,6 +11,15 @@ const menuButton = document.querySelector('#menu-button');
 // Get the menu items
 const menuItems = [ ...menu.querySelectorAll('a') ];
 
+// Handlers for keydown events
+const keydownHandlers = {
+  ArrowUp: handleArrowUpKey,
+  ArrowDown: handleArrowDownKey,
+  Escape: handleEscapeKey,
+  Home: handleHomeKey,
+  End: handleEndKey
+};
+
 
 //
 // Functions
@@ -60,11 +69,9 @@ function handleClick(event) {
 }
 
 /**
- * Handle the ArrowUp and ArrowDown keys for the menu button.
- * @param {boolean} isArrowUp
- * @param {boolean} isArrowDown
+ * Shift focus to the first menu item.
  */
-function handleMenuButton(isArrowUp, isArrowDown) {
+function focusFirstItem() {
   // Get the expanded state
   const isExpanded = menuButton.getAttribute('aria-expanded');
 
@@ -73,50 +80,83 @@ function handleMenuButton(isArrowUp, isArrowDown) {
     show();
   }
 
-  // Shift focus to the last/first item
-  if (isArrowUp) {
-    menuItems[menuItems.length - 1].focus();
-  } else if (isArrowDown) {
-    menuItems[0].focus();
-  }
+  // Shift focus to the first item
+  menuItems[0].focus();
 }
 
 /**
- * Handle the ArrowUp and ArrowDown keys for a menu item.
- * @param {boolean} isArrowUp
- * @param {boolean} isArrowDown
+ * Shift focus to the last menu item.
  */
-function handleMenuItem(isArrowUp, isArrowDown) {
+function focusLastItem() {
+  // Get the expanded state
+  const isExpanded = menuButton.getAttribute('aria-expanded');
+
+  // If the menu is closed, open it
+  if (!isExpanded) {
+    show();
+  }
+
+  // Shift focus to the last item
+  menuItems[menuItems.length - 1].focus();
+}
+
+/**
+ * Shift focus to the next menu item.
+ */
+function focusNextItem() {
   // Find the index of the item that's in focus
   const index = menuItems.findIndex(item => {
     return item === document.activeElement;
   });
 
   // Shift focus to the next item
-  let itemToFocus;
-  if (isArrowUp) {
-    itemToFocus = menuItems[index - 1] ?? menuItems[menuItems.length - 1];
-  } else if (isArrowDown) {
-    itemToFocus = menuItems[index + 1] ?? menuItems[0];
-  }
-  itemToFocus.focus();
+  const nextItem = menuItems[index + 1] ?? menuItems[0];
+  nextItem.focus();
 }
 
 /**
- * Handle the ArrowUp and ArrowDown keys.
- * @param {boolean} isArrowUp
- * @param {boolean} isArrowDown
+ * Shift focus to the previous menu item.
  */
-function handleArrowKeys(isArrowUp, isArrowDown) {
+function focusPrevItem() {
+  // Find the index of the item that's in focus
+  const index = menuItems.findIndex(item => {
+    return item === document.activeElement;
+  });
+
+  // Shift focus to the previous item
+  const prevItem = menuItems[index - 1] ?? menuItems[menuItems.length - 1];
+  prevItem.focus();
+}
+
+/**
+ * Handle the ArrowUp key.
+ */
+function handleArrowUpKey() {
   // Check which element is in focus
   const isMenuButtonInFocus = document.activeElement.matches('#menu-button');
   const isMenuItemInFocus = document.activeElement.matches('#menu a');
 
   // Handle the menu button and menu items
   if (isMenuButtonInFocus) {
-    handleMenuButton(isArrowUp, isArrowDown);
+    focusLastItem();
   } else if (isMenuItemInFocus) {
-    handleMenuItem(isArrowUp, isArrowDown);
+    focusPrevItem();
+  }
+}
+
+/**
+ * Handle the ArrowDown key.
+ */
+function handleArrowDownKey() {
+  // Check which element is in focus
+  const isMenuButtonInFocus = document.activeElement.matches('#menu-button');
+  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+
+  // Handle the menu button and menu items
+  if (isMenuButtonInFocus) {
+    focusFirstItem();
+  } else if (isMenuItemInFocus) {
+    focusNextItem();
   }
 }
 
@@ -140,6 +180,11 @@ function handleEscapeKey() {
  * Handle the Home key.
  */
 function handleHomeKey() {
+  // If there isn't a menu item in focus, do nothing
+  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+  if (!isMenuItemInFocus) return;
+
+  // Otherwise, shift focus to the first item
   menuItems[0].focus();
 }
 
@@ -147,6 +192,11 @@ function handleHomeKey() {
  * Handle the End key.
  */
 function handleEndKey() {
+  // If there isn't a menu item in focus, do nothing
+  const isMenuItemInFocus = document.activeElement.matches('#menu a');
+  if (!isMenuItemInFocus) return;
+
+  // Otherwise, shift focus to the last item
   menuItems[menuItems.length - 1].focus();
 }
 
@@ -155,22 +205,8 @@ function handleEndKey() {
  * @param {Event} event
  */
 function handleKeydown(event) {
-  // Check which key was pressed
-  const isArrowUp = event.key === 'ArrowUp' || event.key === 'Up';
-  const isArrowDown = event.key === 'ArrowDown' || event.key === 'Down';
-  const isEscape = event.key === 'Escape' || event.key === 'Esc';
-  const isHome = event.key === 'Home';
-  const isEnd = event.key === 'End';
-
-  // Handle the ArrowUp/ArrowDown, Escape, Home, and End keys
-  if (isArrowUp || isArrowDown) {
-    handleArrowKeys(isArrowUp, isArrowDown);
-  } else if (isEscape) {
-    handleEscapeKey();
-  } else if (isHome) {
-    handleHomeKey();
-  } else if (isEnd) {
-    handleEndKey();
+  if (keydownHandlers.hasOwnProperty(event.key)) {
+    keydownHandlers[event.key]();
   }
 }
 
