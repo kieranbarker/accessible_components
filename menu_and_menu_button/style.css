@@ -7,15 +7,25 @@ button {
   background: transparent;
 }
 
-[aria-expanded='false']::before {
+#menu-button {
+  display: flex;
+  align-items: center;
+}
+
+#menu-button::before {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.25em;
+  background: currentColor;
   clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 
-[aria-expanded='true']::before {
+#menu-button[aria-expanded='true']::before {
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
-[aria-expanded]:focus {
+#menu-button:focus {
   color: var(--white);
   background: var(--black);
   outline: none;
@@ -62,7 +72,7 @@ button {
     border-color: var(--white);
   }
 
-  [aria-expanded]:focus {
+  #menu-button:focus {
     color: var(--black);
     background: var(--white);
   }

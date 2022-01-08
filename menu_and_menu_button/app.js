@@ -29,7 +29,7 @@ function show() {
  */
 function hide() {
   menu.hidden = true;
-  menuButton.setAttribute('aria-expanded', 'false');
+  menuButton.removeAttribute('aria-expanded');
 }
 
 /**
@@ -40,9 +40,9 @@ function toggle() {
   const isExpanded = menuButton.getAttribute('aria-expanded');
 
   // Show/hide the menu based on the state
-  if (isExpanded === 'true') {
+  if (isExpanded && isExpanded === 'true') {
     hide();
-  } else if (isExpanded === 'false') {
+  } else {
     show();
   }
 }
@@ -69,7 +69,7 @@ function handleMenuButton(isArrowUp, isArrowDown) {
   const isExpanded = menuButton.getAttribute('aria-expanded');
 
   // If the menu is closed, open it
-  if (isExpanded === 'false') {
+  if (!isExpanded) {
     show();
   }
 
