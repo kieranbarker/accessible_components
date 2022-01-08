@@ -187,6 +187,10 @@ function handleHomeKey() {
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
   if (!isMenuItemInFocus) return;
 
+  // If the first menu item is already in focus, do nothing
+  const isFirstMenuItemInFocus = document.activeElement === menuItems[0];
+  if (isFirstMenuItemInFocus) return;
+
   // Otherwise, shift focus to the first item
   menuItems[0].focus();
 }
@@ -198,6 +202,10 @@ function handleEndKey() {
   // If there isn't a menu item in focus, do nothing
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
   if (!isMenuItemInFocus) return;
+
+  // If the last menu item is already in focus, do nothing
+  const isLastMenuItemInFocus = document.activeElement === menuItems[menuItems.length - 1];
+  if (isLastMenuItemInFocus) return;
 
   // Otherwise, shift focus to the last item
   menuItems[menuItems.length - 1].focus();
