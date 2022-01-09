@@ -227,15 +227,28 @@ function handleKeydown(event) {
 }
 
 /**
+ * Handle focus events.
+ */
+function handleFocus() {
+  // If the menu is already closed, do nothing
+  const isExpanded = menuButton.getAttribute(ariaExpanded);
+  if (!isExpanded) return;
+
+  // Otherwise, close the menu
+  hide();
+}
+
+/**
  * Initialise the script.
  */
 function init() {
   // Hide the menu
   hide();
 
-  // Handle click and keydown events
+  // Handle click, keydown, and focus events
   document.documentElement.addEventListener('click', handleClick);
   document.addEventListener('keydown', handleKeydown);
+  menuButton.addEventListener('focus', handleFocus);
 }
 
 
