@@ -56,6 +56,7 @@ function toggle() {
     hide();
   } else {
     show();
+    menuItems[0].focus();
   }
 }
 
