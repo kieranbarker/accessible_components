@@ -129,11 +129,16 @@ function focusPrevItem() {
 
 /**
  * Handle the ArrowUp key.
+ * @param {KeyboardEvent} event
  */
-function handleArrowUpKey() {
-  // Check which element is in focus
+function handleArrowUpKey(event) {
+  // If neither the menu button nor a menu item is in focus, do nothing
   const isMenuButtonInFocus = isInFocus(menuButton);
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
+  if (!isMenuButtonInFocus && !isMenuItemInFocus) return;
+
+  // Prevent scrolling
+  event.preventDefault();
 
   // Handle the menu button and menu items
   if (isMenuButtonInFocus) {
@@ -146,11 +151,15 @@ function handleArrowUpKey() {
 
 /**
  * Handle the ArrowDown key.
+ * @param {KeyboardEvent} event
  */
-function handleArrowDownKey() {
-  // Check which element is in focus
+function handleArrowDownKey(event) {
+  // If neither the menu button nor a menu item is in focus, do nothing
   const isMenuButtonInFocus = isInFocus(menuButton);
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
+
+  // Prevent scrolling
+  event.preventDefault();
 
   // Handle the menu button and menu items
   if (isMenuButtonInFocus) {
@@ -201,11 +210,11 @@ function handleEndKey() {
 
 /**
  * Handle keydown events.
- * @param {Event} event
+ * @param {KeyboardEvent} event
  */
 function handleKeyDown(event) {
   if (keydownHandlers.hasOwnProperty(event.key)) {
-    keydownHandlers[event.key]();
+    keydownHandlers[event.key](event);
   }
 }
 
