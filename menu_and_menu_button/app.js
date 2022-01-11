@@ -157,6 +157,7 @@ function handleArrowDownKey(event) {
   // If neither the menu button nor a menu item is in focus, do nothing
   const isMenuButtonInFocus = isInFocus(menuButton);
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
+  if (!isMenuButtonInFocus && !isMenuItemInFocus) return;
 
   // Prevent scrolling
   event.preventDefault();
