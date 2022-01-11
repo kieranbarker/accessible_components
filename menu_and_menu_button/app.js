@@ -52,11 +52,11 @@ function toggle() {
   const isExpanded = menuButton.getAttribute(ariaExpanded);
 
   // Hide/show the menu based on the state
-  if (isExpanded && isExpanded === 'true') {
+  if (isExpanded === 'true') {
     hide();
   } else {
     show();
-    menuItems[0].focus();
+    focusFirstItem();
   }
 }
 
@@ -85,15 +85,6 @@ function isInFocus(element) {
  * Shift focus to the first menu item.
  */
 function focusFirstItem() {
-  // Get the expanded state
-  const isExpanded = menuButton.getAttribute(ariaExpanded);
-
-  // If the menu is closed, open it
-  if (!isExpanded) {
-    show();
-  }
-
-  // Shift focus to the first item
   menuItems[0].focus();
 }
 
@@ -101,15 +92,6 @@ function focusFirstItem() {
  * Shift focus to the last menu item.
  */
 function focusLastItem() {
-  // Get the expanded state
-  const isExpanded = menuButton.getAttribute(ariaExpanded);
-
-  // If the menu is closed, open it
-  if (!isExpanded) {
-    show();
-  }
-
-  // Shift focus to the last item
   menuItems[menuItems.length - 1].focus();
 }
 
@@ -121,8 +103,8 @@ function focusNextItem() {
   const index = menuItems.findIndex(isInFocus);
 
   // Shift focus to the next item
-  const nextItem = menuItems[index + 1] ?? menuItems[0];
-  nextItem.focus();
+  const nextItem = menuItems[index + 1];
+  nextItem ? nextItem.focus() : focusFirstItem();
 }
 
 /**
@@ -133,8 +115,8 @@ function focusPrevItem() {
   const index = menuItems.findIndex(isInFocus);
 
   // Shift focus to the previous item
-  const prevItem = menuItems[index - 1] ?? menuItems[menuItems.length - 1];
-  prevItem.focus();
+  const prevItem = menuItems[index - 1];
+  prevItem ? prevItem.focus() : focusLastItem();
 }
 
 /**
@@ -147,6 +129,7 @@ function handleArrowUpKey() {
 
   // Handle the menu button and menu items
   if (isMenuButtonInFocus) {
+    show();
     focusLastItem();
   } else if (isMenuItemInFocus) {
     focusPrevItem();
@@ -163,6 +146,7 @@ function handleArrowDownKey() {
 
   // Handle the menu button and menu items
   if (isMenuButtonInFocus) {
+    show();
     focusFirstItem();
   } else if (isMenuItemInFocus) {
     focusNextItem();
@@ -173,16 +157,14 @@ function handleArrowDownKey() {
  * Handle the Escape key.
  */
 function handleEscapeKey() {
-  // Check if a menu item is in focus
+  // If neither the menu button nor a menu item is in focus, do nothing
+  const isMenuButtonInFocus = isInFocus(menuButton);
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
+  if (!isMenuButtonInFocus && !isMenuItemInFocus) return;
 
-  // Close the menu
+  // Otherwise, close the menu and shift focus to the menu button
   hide();
-
-  // If a menu item is in focus, shift focus to the menu button
-  if (isMenuItemInFocus) {
-    menuButton.focus();
-  }
+  menuButton.focus();
 }
 
 /**
@@ -193,12 +175,8 @@ function handleHomeKey() {
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
   if (!isMenuItemInFocus) return;
 
-  // If the first menu item is already in focus, do nothing
-  const isFirstMenuItemInFocus = isInFocus(menuItems[0]);
-  if (isFirstMenuItemInFocus) return;
-
   // Otherwise, shift focus to the first item
-  menuItems[0].focus();
+  focusFirstItem();
 }
 
 /**
@@ -209,12 +187,8 @@ function handleEndKey() {
   const isMenuItemInFocus = menuItems.includes(document.activeElement);
   if (!isMenuItemInFocus) return;
 
-  // If the last menu item is already in focus, do nothing
-  const isLastMenuItemInFocus = isInFocus(menuItems[menuItems.length - 1]);
-  if (isLastMenuItemInFocus) return;
-
   // Otherwise, shift focus to the last item
-  menuItems[menuItems.length - 1].focus();
+  focusLastItem();
 }
 
 /**
