@@ -29,6 +29,14 @@ const keydownHandlers = {
 //
 
 /**
+ * Handle mouseover events.
+ * @param {MouseEvent} event
+ */
+function handleMouseOver(event) {
+  event.target.focus();
+}
+
+/**
  * Show the menu.
  */
 function show() {
@@ -195,7 +203,7 @@ function handleEndKey() {
  * Handle keydown events.
  * @param {Event} event
  */
-function handleKeydown(event) {
+function handleKeyDown(event) {
   if (keydownHandlers.hasOwnProperty(event.key)) {
     keydownHandlers[event.key]();
   }
@@ -208,9 +216,10 @@ function init() {
   // Hide the menu
   hide();
 
-  // Handle click and keydown events
+  // Add the event listeners
+  document.addEventListener('keydown', handleKeyDown);
+  menu.addEventListener('mouseover', handleMouseOver);
   document.documentElement.addEventListener('click', handleClick);
-  document.addEventListener('keydown', handleKeydown);
 }
 
 

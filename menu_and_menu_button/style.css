@@ -56,7 +56,6 @@ button {
   color: var(--black);
 }
 
-#menu a:hover,
 #menu a:focus {
   color: var(--white);
   background: var(--black);
@@ -85,7 +84,6 @@ button {
     color: var(--white);
   }
 
-  #menu a:hover,
   #menu a:focus {
     color: var(--black);
     background: var(--white);
