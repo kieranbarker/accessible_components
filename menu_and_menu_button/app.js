@@ -70,7 +70,7 @@ function toggle() {
 
 /**
  * Handle click events.
- * @param {Event} event
+ * @param {PointerEvent} event
  */
 function handleClick(event) {
   if (event.target === menuButton) {
