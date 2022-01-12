@@ -22,23 +22,32 @@ function focusLastItem() {
 }
 
 function handleButtonKeydown(event) {
+  let shouldPreventDefault = false;
+
   switch (event.key) {
     case 'Enter':
     case ' ':
     case 'ArrowDown':
       show();
       focusFirstItem();
+      shouldPreventDefault = true;
       break;
     case 'ArrowUp':
       show();
       focusLastItem();
+      shouldPreventDefault = true;
       break;
     case 'Escape':
       hide();
       button.focus();
+      shouldPreventDefault = true;
       break;
     default:
       break;
+  }
+
+  if (shouldPreventDefault) {
+    event.shouldPreventDefault();
   }
 }
 
