@@ -46,7 +46,7 @@ function isExpanded() {
   return button.getAttribute('aria-expanded') === 'true';
 }
 
-function handleButtonClick(event) {
+function handleButtonClick() {
   if (isExpanded()) {
     hide();
     button.focus();
