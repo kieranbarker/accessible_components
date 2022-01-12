@@ -41,5 +41,20 @@ function handleButtonKeydown(event) {
   }
 }
 
+function isExpanded() {
+  return button.getAttribute('aria-expanded') === 'true';
+}
+
+function handleButtonClick(event) {
+  if (isExpanded()) {
+    hide();
+    button.focus();
+  } else {
+    show();
+    focusFirstItem();
+  }
+}
+
 hide();
+button.addEventListener('click', handleButtonClick);
 button.addEventListener('keydown', handleButtonKeydown);
