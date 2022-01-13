@@ -1,92 +1,77 @@
+/**
+ *   This software includes material derived from the Navigation Menu Button
+ *   Example in the WAI-ARIA Authoring Practices 1.2.
+ *
+ *   https://w3c.github.io/aria-practices/examples/menu-button/menu-button-links.html
+ *
+ *   Copyright © 2022 W3C® (MIT, ERCIM, Keio, Beihang).
+ */
+
 'use strict';
+
 
 //
 // Constants
 //
 
-// Get the menu and menu button
-const menu = document.querySelector('#menu');
-const menuButton = document.querySelector('#menu-button');
+const main = document.querySelector('main');
 
-// Get the menu items
-const menuItems = [ ...menu.querySelectorAll('a') ];
+const button = main.querySelector('#menu-button');
 
-// The aria-expanded attribute
-const ariaExpanded = 'aria-expanded';
+const menu = main.querySelector('#menu');
+const menuItems = [ ...menu.querySelectorAll('[role="menuitem"]') ];
 
-// Handlers for keydown events
-const keydownHandlers = {
-  ArrowUp: handleArrowUpKey,
-  ArrowDown: handleArrowDownKey,
-  Escape: handleEscapeKey,
-  Home: handleHomeKey,
-  End: handleEndKey
-};
+const firstChars = menuItems.map(item => {
+  return item.textContent.toLowerCase().trim().charAt(0);
+});
+
+const buttonHandlers = {}, itemHandlers = {};
 
 
 //
-// Functions
+// Utilities
 //
-
-/**
- * Handle mouseover events.
- * @param {MouseEvent} event
- */
-function handleMouseOver(event) {
-  event.target.focus();
-}
 
 /**
  * Show the menu.
  */
 function show() {
-  menu.hidden = false;
-  menuButton.setAttribute(ariaExpanded, 'true');
+  menu.removeAttribute('hidden');
+  button.setAttribute('aria-expanded', 'true');
 }
 
 /**
  * Hide the menu.
  */
 function hide() {
-  menu.hidden = true;
-  menuButton.removeAttribute(ariaExpanded);
+  menu.setAttribute('hidden', '');
+  button.removeAttribute('aria-expanded');
 }
 
 /**
- * Toggle the menu.
+ * Find the index of the menu item in focus.
+ * @returns {number}
  */
-function toggle() {
-  // Get the expanded state
-  const isExpanded = menuButton.getAttribute(ariaExpanded);
-
-  // Hide/show the menu based on the state
-  if (isExpanded === 'true') {
-    hide();
-  } else {
-    show();
-    focusFirstItem();
-  }
+function findIndexInFocus() {
+  return menuItems.findIndex(item => item === document.activeElement);
 }
 
 /**
- * Handle click events.
- * @param {PointerEvent} event
+ * Shift focus to the next menu item.
  */
-function handleClick(event) {
-  if (event.target === menuButton) {
-    toggle();
-  } else {
-    hide();
-  }
+function focusNextItem() {
+  const indexInFocus = findIndexInFocus();
+  const nextItem = menuItems[indexInFocus + 1];
+  nextItem ? nextItem.focus() : focusFirstItem();
 }
 
 /**
- * Check if an element is in focus.
- * @param {Element} element
- * @returns {boolean}
+ * Shift focus to the previous menu item.
  */
-function isInFocus(element) {
-  return document.activeElement === element;
+function focusPrevItem() {
+  const indexInFocus = findIndexInFocus();
+  const prevItem = menuItems[indexInFocus - 1];
+  prevItem ? prevItem.focus() : focusLastItem();
 }
 
 /**
@@ -104,132 +89,199 @@ function focusLastItem() {
 }
 
 /**
- * Shift focus to the next menu item.
+ * Shift focus to a menu item based on its first character.
+ * https://w3c.github.io/aria-practices/examples/menu-button/js/menu-button-links.js
+ * @param {Element} currentItem
+ * @param {string} char
  */
-function focusNextItem() {
-  // Find the index of the item that's in focus
-  const index = menuItems.findIndex(isInFocus);
+function focusItemByChar(currentItem, char) {
+  if (char.length > 1) return;
 
-  // Shift focus to the next item
-  const nextItem = menuItems[index + 1];
-  nextItem ? nextItem.focus() : focusFirstItem();
-}
+  let start, index;
 
-/**
- * Shift focus to the previous menu item.
- */
-function focusPrevItem() {
-  // Find the index of the item that's in focus
-  const index = menuItems.findIndex(isInFocus);
+  char = char.toLowerCase();
 
-  // Shift focus to the previous item
-  const prevItem = menuItems[index - 1];
-  prevItem ? prevItem.focus() : focusLastItem();
-}
+  // Get start index for search based on position of currentItem
+  start = menuItems.indexOf(currentItem) + 1;
+  if (start >= menuItems.length) {
+    start = 0;
+  }
 
-/**
- * Handle the ArrowUp key.
- * @param {KeyboardEvent} event
- */
-function handleArrowUpKey(event) {
-  // If neither the menu button nor a menu item is in focus, do nothing
-  const isMenuButtonInFocus = isInFocus(menuButton);
-  const isMenuItemInFocus = menuItems.includes(document.activeElement);
-  if (!isMenuButtonInFocus && !isMenuItemInFocus) return;
+  // Check remaining slots in the menu
+  index = firstChars.indexOf(char, start);
 
-  // Prevent scrolling
-  event.preventDefault();
+  // If not found in remaining slots, check from beginning
+  if (index === -1) {
+    index = firstChars.indexOf(char, 0);
+  }
 
-  // Handle the menu button and menu items
-  if (isMenuButtonInFocus) {
-    show();
-    focusLastItem();
-  } else if (isMenuItemInFocus) {
-    focusPrevItem();
+  // If match was found...
+  if (index > -1) {
+    menuItems[index].focus();
   }
 }
 
 /**
- * Handle the ArrowDown key.
- * @param {KeyboardEvent} event
+ * Check if the menu is expanded.
+ * @returns {boolean}
  */
-function handleArrowDownKey(event) {
-  // If neither the menu button nor a menu item is in focus, do nothing
-  const isMenuButtonInFocus = isInFocus(menuButton);
-  const isMenuItemInFocus = menuItems.includes(document.activeElement);
-  if (!isMenuButtonInFocus && !isMenuItemInFocus) return;
+function isExpanded() {
+  return button.getAttribute('aria-expanded') === 'true';
+}
 
-  // Prevent scrolling
-  event.preventDefault();
+/**
+ * Check if a character is printable.
+ * https://w3c.github.io/aria-practices/examples/menu-button/js/menu-button-links.js
+ * @param {string} str
+ * @returns {boolean}
+ */
+function isPrintableCharacter(str) {
+  return str.length === 1 && str.match(/\S/);
+}
 
-  // Handle the menu button and menu items
-  if (isMenuButtonInFocus) {
+
+//
+// Event Handlers
+//
+
+/**
+ * Handle click events on the button.
+ */
+buttonHandlers.click = function() {
+  if (isExpanded()) {
+    hide();
+    button.focus();
+  } else {
     show();
     focusFirstItem();
-  } else if (isMenuItemInFocus) {
-    focusNextItem();
   }
-}
+};
 
 /**
- * Handle the Escape key.
- */
-function handleEscapeKey() {
-  // If neither the menu button nor a menu item is in focus, do nothing
-  const isMenuButtonInFocus = isInFocus(menuButton);
-  const isMenuItemInFocus = menuItems.includes(document.activeElement);
-  if (!isMenuButtonInFocus && !isMenuItemInFocus) return;
-
-  // Otherwise, close the menu and shift focus to the menu button
-  hide();
-  menuButton.focus();
-}
-
-/**
- * Handle the Home key.
- */
-function handleHomeKey() {
-  // If there isn't a menu item in focus, do nothing
-  const isMenuItemInFocus = menuItems.includes(document.activeElement);
-  if (!isMenuItemInFocus) return;
-
-  // Otherwise, shift focus to the first item
-  focusFirstItem();
-}
-
-/**
- * Handle the End key.
- */
-function handleEndKey() {
-  // If there isn't a menu item in focus, do nothing
-  const isMenuItemInFocus = menuItems.includes(document.activeElement);
-  if (!isMenuItemInFocus) return;
-
-  // Otherwise, shift focus to the last item
-  focusLastItem();
-}
-
-/**
- * Handle keydown events.
+ * Handle keydown events on the button.
  * @param {KeyboardEvent} event
  */
-function handleKeyDown(event) {
-  if (keydownHandlers.hasOwnProperty(event.key)) {
-    keydownHandlers[event.key](event);
+buttonHandlers.keydown = function(event) {
+  let shouldPreventDefault = false;
+
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+    case 'ArrowDown':
+      show();
+      focusFirstItem();
+      shouldPreventDefault = true;
+      break;
+    case 'ArrowUp':
+      show();
+      focusLastItem();
+      shouldPreventDefault = true;
+      break;
+    default:
+      break;
+  }
+
+  if (shouldPreventDefault) {
+    event.preventDefault();
+  }
+};
+
+/**
+ * Handle mouseover events on the menu items.
+ * @param {MouseEvent} event
+ */
+itemHandlers.mouseover = function(event) {
+  event.target.focus();
+};
+
+/**
+ * Handle keydown events on the menu items.
+ * @param {KeyboardEvent} event
+ */
+itemHandlers.keydown = function(event) {
+  if (event.ctrlKey || event.altKey || event.metaKey) return;
+
+  const isFirstItem = event.target === menuItems[0];
+  const isLastItem = event.target === menuItems[menuItems.length - 1];
+
+  let shouldPreventDefault = false;
+
+  if (event.shiftKey) {
+    if (isPrintableCharacter(event.key)) {
+      focusItemByChar(event.target, event.key);
+      shouldPreventDefault = true;
+    }
+
+    if (isFirstItem && event.key === 'Tab') {
+      button.focus();
+      hide();
+      shouldPreventDefault = true;
+    }
+  } else if (isLastItem && event.key === 'Tab') {
+    hide();
+  } else {
+    switch (event.key) {
+      case ' ':
+        event.target.click();
+        shouldPreventDefault = true;
+        break;
+      case 'ArrowDown':
+        focusNextItem();
+        shouldPreventDefault = true;
+        break;
+      case 'ArrowUp':
+        focusPrevItem();
+        shouldPreventDefault = true;
+        break;
+      case 'End':
+      case 'PageDown':
+        focusLastItem();
+        shouldPreventDefault = true;
+        break;
+      case 'Home':
+      case 'PageUp':
+        focusFirstItem();
+        shouldPreventDefault = true;
+        break;
+      case 'Escape':
+        hide();
+        button.focus();
+        shouldPreventDefault = true;
+        break;
+      default:
+        if (!isPrintableCharacter(event.key)) break;
+        focusItemByChar(event.target, event.key);
+        shouldPreventDefault = true;
+        break;
+    }
+  }
+
+  if (shouldPreventDefault) {
+    event.preventDefault();
+  }
+};
+
+/**
+ * Handle keydown events inside the component.
+ * @param {KeyboardEvent} event
+ */
+function handleKeydown(event) {
+  if (button === event.target) {
+    buttonHandlers.keydown(event);
+  } else if (menuItems.includes(event.target)) {
+    itemHandlers.keydown(event);
   }
 }
 
 /**
- * Initialise the script.
+ * Handle mousedown events outside the component.
+ * @param {MouseEvent} event
  */
-function init() {
-  // Hide the menu
+function handleMousedown(event) {
+  if (main.contains(event.target)) return;
+  if (!isExpanded()) return;
   hide();
-
-  // Add the event listeners
-  document.addEventListener('keydown', handleKeyDown);
-  menu.addEventListener('mouseover', handleMouseOver);
-  document.documentElement.addEventListener('click', handleClick);
+  button.focus();
 }
 
 
@@ -237,5 +289,9 @@ function init() {
 // Inits & Event Listeners
 //
 
-// Initialise the script
-init();
+hide();
+
+main.addEventListener('keydown', handleKeydown);
+button.addEventListener('click', buttonHandlers.click);
+menu.addEventListener('mouseover', itemHandlers.mouseover);
+document.documentElement.addEventListener('mousedown', handleMousedown);
