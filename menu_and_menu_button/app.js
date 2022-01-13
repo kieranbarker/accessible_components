@@ -39,11 +39,6 @@ function handleButtonKeydown(event) {
       focusLastItem();
       shouldPreventDefault = true;
       break;
-    case 'Escape':
-      hide();
-      button.focus();
-      shouldPreventDefault = true;
-      break;
     default:
       break;
   }
@@ -101,6 +96,7 @@ function handleItemKeydown(event) {
     switch (event.key) {
       case ' ':
         event.target.click();
+        shouldPreventDefault = true;
         break;
       case 'ArrowDown':
         focusNextItem();
