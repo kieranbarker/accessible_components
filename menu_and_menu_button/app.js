@@ -1,6 +1,8 @@
-const button = document.querySelector('#menu-button');
+const main = document.querySelector('main');
 
-const menu = document.querySelector('#menu');
+const button = main.querySelector('#menu-button');
+
+const menu = main.querySelector('#menu');
 const menuItems = [ ...menu.querySelectorAll('[role="menuitem"]') ];
 
 function show() {
@@ -137,6 +139,13 @@ function handleItemMouseover(event) {
   event.target.focus();
 }
 
+function handleMousedown(event) {
+  if (main.contains(event.target)) return;
+  if (!isExpanded()) return;
+  hide();
+  button.focus();
+}
+
 hide();
 
 button.addEventListener('click', handleButtonClick);
@@ -144,3 +153,5 @@ button.addEventListener('keydown', handleButtonKeydown);
 
 menu.addEventListener('keydown', handleItemKeydown);
 menu.addEventListener('mouseover', handleItemMouseover);
+
+document.documentElement.addEventListener('mousedown', handleMousedown);
