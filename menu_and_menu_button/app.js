@@ -1,4 +1,14 @@
+/**
+ *   This software includes material derived from the Navigation Menu Button
+ *   Example in the WAI-ARIA Authoring Practices 1.2.
+ *
+ *   https://w3c.github.io/aria-practices/examples/menu-button/menu-button-links.html
+ *
+ *   Copyright © 2022 W3C® (MIT, ERCIM, Keio, Beihang).
+ */
+
 'use strict';
+
 
 //
 // Constants
@@ -10,6 +20,10 @@ const button = main.querySelector('#menu-button');
 
 const menu = main.querySelector('#menu');
 const menuItems = [ ...menu.querySelectorAll('[role="menuitem"]') ];
+
+const firstChars = menuItems.map(item => {
+  return item.textContent.toLowerCase().trim().charAt(0);
+});
 
 const buttonHandlers = {}, itemHandlers = {};
 
@@ -75,11 +89,54 @@ function focusLastItem() {
 }
 
 /**
+ * Shift focus to a menu item based on its first character.
+ * https://w3c.github.io/aria-practices/examples/menu-button/js/menu-button-links.js
+ * @param {Element} currentItem
+ * @param {string} char
+ */
+function focusItemByChar(currentItem, char) {
+  if (char.length > 1) return;
+
+  let start, index;
+
+  char = char.toLowerCase();
+
+  // Get start index for search based on position of currentItem
+  start = menuItems.indexOf(currentItem) + 1;
+  if (start >= menuItems.length) {
+    start = 0;
+  }
+
+  // Check remaining slots in the menu
+  index = firstChars.indexOf(char, start);
+
+  // If not found in remaining slots, check from beginning
+  if (index === -1) {
+    index = firstChars.indexOf(char, 0);
+  }
+
+  // If match was found...
+  if (index > -1) {
+    menuItems[index].focus();
+  }
+}
+
+/**
  * Check if the menu is expanded.
  * @returns {boolean}
  */
 function isExpanded() {
   return button.getAttribute('aria-expanded') === 'true';
+}
+
+/**
+ * Check if a character is printable.
+ * https://w3c.github.io/aria-practices/examples/menu-button/js/menu-button-links.js
+ * @param {string} str
+ * @returns {boolean}
+ */
+function isPrintableCharacter(str) {
+  return str.length === 1 && str.match(/\S/);
 }
 
 
@@ -142,19 +199,26 @@ itemHandlers.mouseover = function(event) {
  * @param {KeyboardEvent} event
  */
 itemHandlers.keydown = function(event) {
+  if (event.ctrlKey || event.altKey || event.metaKey) return;
+
   const isFirstItem = event.target === menuItems[0];
   const isLastItem = event.target === menuItems[menuItems.length - 1];
 
   let shouldPreventDefault = false;
 
-  if (event.key === 'Tab') {
-    if (isFirstItem && event.shiftKey) {
+  if (event.shiftKey) {
+    if (isPrintableCharacter(event.key)) {
+      focusItemByChar(event.target, event.key);
+      shouldPreventDefault = true;
+    }
+
+    if (isFirstItem && event.key === 'Tab') {
       button.focus();
       hide();
       shouldPreventDefault = true;
-    } else if (isLastItem && !event.shiftKey) {
-      hide();
     }
+  } else if (isLastItem && event.key === 'Tab') {
+    hide();
   } else {
     switch (event.key) {
       case ' ':
@@ -185,6 +249,9 @@ itemHandlers.keydown = function(event) {
         shouldPreventDefault = true;
         break;
       default:
+        if (!isPrintableCharacter(event.key)) break;
+        focusItemByChar(event.target, event.key);
+        shouldPreventDefault = true;
         break;
     }
   }
