@@ -44,7 +44,7 @@ function handleButtonKeydown(event) {
   }
 
   if (shouldPreventDefault) {
-    event.shouldPreventDefault();
+    event.preventDefault();
   }
 }
 
