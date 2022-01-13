@@ -1,9 +1,20 @@
+//
+// Constants
+//
+
 const main = document.querySelector('main');
 
 const button = main.querySelector('#menu-button');
 
 const menu = main.querySelector('#menu');
 const menuItems = [ ...menu.querySelectorAll('[role="menuitem"]') ];
+
+const buttonHandlers = {}, itemHandlers = {};
+
+
+//
+// Utilities
+//
 
 /**
  * Show the menu.
@@ -19,70 +30,6 @@ function show() {
 function hide() {
   menu.setAttribute('hidden', '');
   button.removeAttribute('aria-expanded');
-}
-
-/**
- * Shift focus to the first menu item.
- */
-function focusFirstItem() {
-  menuItems[0].focus();
-}
-
-/**
- * Shift focus to the last menu item.
- */
-function focusLastItem() {
-  menuItems[menuItems.length - 1].focus();
-}
-
-/**
- * Handle keydown events on the button.
- * @param {KeyboardEvent} event
- */
-function handleButtonKeydown(event) {
-  let shouldPreventDefault = false;
-
-  switch (event.key) {
-    case 'Enter':
-    case ' ':
-    case 'ArrowDown':
-      show();
-      focusFirstItem();
-      shouldPreventDefault = true;
-      break;
-    case 'ArrowUp':
-      show();
-      focusLastItem();
-      shouldPreventDefault = true;
-      break;
-    default:
-      break;
-  }
-
-  if (shouldPreventDefault) {
-    event.preventDefault();
-  }
-}
-
-/**
- * Check if the menu is expanded.
- * @returns {boolean}
- */
-function isExpanded() {
-  return button.getAttribute('aria-expanded') === 'true';
-}
-
-/**
- * Handle click events on the button.
- */
-function handleButtonClick() {
-  if (isExpanded()) {
-    hide();
-    button.focus();
-  } else {
-    show();
-    focusFirstItem();
-  }
 }
 
 /**
@@ -112,10 +59,87 @@ function focusPrevItem() {
 }
 
 /**
+ * Shift focus to the first menu item.
+ */
+function focusFirstItem() {
+  menuItems[0].focus();
+}
+
+/**
+ * Shift focus to the last menu item.
+ */
+function focusLastItem() {
+  menuItems[menuItems.length - 1].focus();
+}
+
+/**
+ * Check if the menu is expanded.
+ * @returns {boolean}
+ */
+function isExpanded() {
+  return button.getAttribute('aria-expanded') === 'true';
+}
+
+
+//
+// Event Handlers
+//
+
+/**
+ * Handle click events on the button.
+ */
+buttonHandlers.click = function() {
+  if (isExpanded()) {
+    hide();
+    button.focus();
+  } else {
+    show();
+    focusFirstItem();
+  }
+};
+
+/**
+ * Handle keydown events on the button.
+ * @param {KeyboardEvent} event
+ */
+buttonHandlers.keydown = function(event) {
+  let shouldPreventDefault = false;
+
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+    case 'ArrowDown':
+      show();
+      focusFirstItem();
+      shouldPreventDefault = true;
+      break;
+    case 'ArrowUp':
+      show();
+      focusLastItem();
+      shouldPreventDefault = true;
+      break;
+    default:
+      break;
+  }
+
+  if (shouldPreventDefault) {
+    event.preventDefault();
+  }
+};
+
+/**
+ * Handle mouseover events on the menu items.
+ * @param {MouseEvent} event
+ */
+itemHandlers.mouseover = function(event) {
+  event.target.focus();
+};
+
+/**
  * Handle keydown events on the menu items.
  * @param {KeyboardEvent} event
  */
-function handleItemKeydown(event) {
+itemHandlers.keydown = function(event) {
   const isFirstItem = event.target === menuItems[0];
   const isLastItem = event.target === menuItems[menuItems.length - 1];
 
@@ -166,14 +190,18 @@ function handleItemKeydown(event) {
   if (shouldPreventDefault) {
     event.preventDefault();
   }
-}
+};
 
 /**
- * Handle mouseover events on the menu items.
- * @param {MouseEvent} event
+ * Handle keydown events inside the component.
+ * @param {KeyboardEvent} event
  */
-function handleItemMouseover(event) {
-  event.target.focus();
+function handleKeydown(event) {
+  if (button === event.target) {
+    buttonHandlers.keydown(event);
+  } else if (menuItems.includes(event.target)) {
+    itemHandlers.keydown(event);
+  }
 }
 
 /**
@@ -187,12 +215,14 @@ function handleMousedown(event) {
   button.focus();
 }
 
+
+//
+// Inits & Event Listeners
+//
+
 hide();
 
-button.addEventListener('click', handleButtonClick);
-button.addEventListener('keydown', handleButtonKeydown);
-
-menu.addEventListener('keydown', handleItemKeydown);
-menu.addEventListener('mouseover', handleItemMouseover);
-
+main.addEventListener('keydown', handleKeydown);
+button.addEventListener('click', buttonHandlers.click);
+menu.addEventListener('mouseover', itemHandlers.mouseover);
 document.documentElement.addEventListener('mousedown', handleMousedown);
