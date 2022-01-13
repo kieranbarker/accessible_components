@@ -133,9 +133,14 @@ function handleItemKeydown(event) {
   }
 }
 
+function handleItemMouseover(event) {
+  event.target.focus();
+}
+
 hide();
 
 button.addEventListener('click', handleButtonClick);
 button.addEventListener('keydown', handleButtonKeydown);
 
 menu.addEventListener('keydown', handleItemKeydown);
+menu.addEventListener('mouseover', handleItemMouseover);
