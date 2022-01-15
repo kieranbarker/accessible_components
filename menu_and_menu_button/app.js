@@ -72,7 +72,7 @@ function isMenuOpen() {
  * Open the menu.
  */
 function openMenu() {
-  menu.removeAttribute('hidden');
+  menu.hidden = false;
   button.setAttribute('aria-expanded', 'true');
 }
 
@@ -96,7 +96,7 @@ function openMenuAndFocusLastItem() {
  * Close the menu.
  */
 function closeMenu() {
-  menu.setAttribute('hidden', '');
+  menu.hidden = true;
   button.removeAttribute('aria-expanded');
 }
 
