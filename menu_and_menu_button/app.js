@@ -235,6 +235,7 @@ function handleItemKeydown(event) {
 
   if (event.shiftKey) {
     if (isPrintableCharacter(event.key)) {
+      event.preventDefault();
       focusItemByChar(event.target, event.key);
     } else if (isFirstItem && event.key === 'Tab') {
       event.preventDefault();
