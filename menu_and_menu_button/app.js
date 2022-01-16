@@ -14,12 +14,15 @@
 // Constants
 //
 
+const menuId = 'menu';
+const buttonId = 'menu-button';
+
 const wrapper = document.querySelector('main');
 
-const button = wrapper.querySelector('#menu-button');
+const button = createButton();
 
-const menu = wrapper.querySelector('[role="menu"]');
-const menuItems = [ ...menu.querySelectorAll('[role="menuitem"]') ];
+const menu = wrapper.querySelector(`#${menuId}`);
+const menuItems = [ ...menu.querySelectorAll('a') ];
 
 const firstChars = menuItems.map(item => {
   return item.textContent.toLowerCase().trim().charAt(0);
@@ -51,13 +54,45 @@ keyHandlers.item = {
 //
 
 /**
- * Check if a character is printable.
- * https://w3c.github.io/aria-practices/examples/menu-button/js/menu-button-links.js
- * @param {string} str
- * @returns {boolean}
+ * Initialise the script.
  */
-function isPrintableCharacter(str) {
-  return str.length === 1 && str.match(/\S/);
+function init() {
+  createMenu();
+  menu.before(button);
+}
+
+/**
+ * Create the menu button.
+ * @returns {HTMLButtonElement}
+ */
+function createButton() {
+  const button = document.createElement('button');
+
+  button.id = buttonId;
+  button.type = 'button';
+  button.textContent = 'Navigation';
+
+  button.setAttribute('aria-controls', menuId);
+  button.setAttribute('aria-haspopup', 'true');
+
+  return button;
+}
+
+/**
+ * Create the menu.
+ */
+function createMenu() {
+  const listItems = [ ...menu.children ];
+
+  menu.hidden = true;
+
+  menu.setAttribute('role', 'menu');
+  menu.setAttribute('aria-labelledby', buttonId);
+
+  for (const listItem of listItems) {
+    listItem.setAttribute('role', 'presentation');
+    listItem.firstElementChild.setAttribute('role', 'menuitem');
+  }
 }
 
 /**
@@ -151,7 +186,7 @@ function focusPrevItem() {
 /**
  * Shift focus to a menu item based on its first character.
  * https://w3c.github.io/aria-practices/examples/menu-button/js/menu-button-links.js
- * @param {Element} currentItem
+ * @param {HTMLAnchorElement} currentItem
  * @param {string} char
  */
 function focusItemByChar(currentItem, char) {
@@ -179,6 +214,16 @@ function focusItemByChar(currentItem, char) {
   if (index > -1) {
     menuItems[index].focus();
   }
+}
+
+/**
+ * Check if a character is printable.
+ * https://w3c.github.io/aria-practices/examples/menu-button/js/menu-button-links.js
+ * @param {string} str
+ * @returns {boolean}
+ */
+function isPrintableCharacter(str) {
+  return str.length === 1 && str.match(/\S/);
 }
 
 
@@ -290,7 +335,7 @@ function handleMousedown(event) {
 // Inits & Event Listeners
 //
 
-closeMenu();
+init();
 
 button.addEventListener('click', handleButtonClick);
 menu.addEventListener('mouseover', handleItemMouseover);
