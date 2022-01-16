@@ -34,7 +34,8 @@ keyHandlers.button = {
   ' ': openMenuAndFocusFirstItem,
   Enter: openMenuAndFocusFirstItem,
   ArrowDown: openMenuAndFocusFirstItem,
-  ArrowUp: openMenuAndFocusLastItem
+  ArrowUp: openMenuAndFocusLastItem,
+  Escape: closeMenuAndFocusButton
 };
 
 keyHandlers.item = {
